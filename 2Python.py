@@ -1,15 +1,14 @@
-import PyPDF2
+import pdfplumber
 
 def extract_text_from_pdf(pdf_path):
-    with open(pdf_path, 'rb') as file:
-        reader = PyPDF2.PdfReader(file)
-        text = ''
-        for page_num in range(len(reader.pages)):
-            page = reader.pages[page_num]
-            text += page.extract_text() or ''  # Handle cases where extract_text() might return None
+    text = ''
+    with pdfplumber.open(pdf_path) as pdf:
+        for page_number in range(len(pdf.pages)):
+            page = pdf.pages[page_number]
+            text += page.extract_text() or ''  # Handle cases where extract_text might return None
     return text
 
 # Example usage
-pdf_path = 'C:\\Users\\Asus\\Downloads\\Gen AI Hackathon Study Material .pdf'
-text = extract_text_from_pdf(pdf_path)
-print(text)
+pdf_path =  'C:\\Users\\Asus\\Downloads\\Gen AI Hackathon Study Material .pdf'
+extracted_text = extract_text_from_pdf(pdf_path)
+print(extracted_text)
